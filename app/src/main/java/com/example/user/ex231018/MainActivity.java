@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout bg;
     AlertDialog.Builder adb;
     CharSequence[] clr={"Red","Green","Blue"};
-    int[] color= new int[]{0,0,0};
+    int[] color;
 
 
     @Override
@@ -44,18 +44,19 @@ public class MainActivity extends AppCompatActivity {
 
     public void aldi(View view) {
         adb=new AlertDialog.Builder(this);
+        color= new int[]{0,0,0};
        //LayoutInflater dialogInterface=this.getLayoutInflater();
         adb.setTitle("Changing background - multi choice");
         adb.setMultiChoiceItems(clr, null, new DialogInterface.OnMultiChoiceClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i, boolean b) {
                 if (b)
-                    color[i]=255;
-                else
-                    if (color[i]==255)
-                        color[i]=0;
-                bg.setBackgroundColor(Color.argb(255,color[0],color[1],color[2]));
-
+                    if(color[i] == 0){
+                        color[i]=255;
+                    }
+                    else if(color[i] == 255) {
+                        color[i] = 0;
+                    }
             }
         });
         adb.setNeutralButton("cancel", new DialogInterface.OnClickListener(){
@@ -64,10 +65,11 @@ public class MainActivity extends AppCompatActivity {
                 dialogInterface.cancel();
             }
         });
-        adb.setPositiveButton("reset", new DialogInterface.OnClickListener() {
+        adb.setPositiveButton("ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                bg.setBackgroundColor(Color.WHITE);
+                bg.setBackgroundColor(Color.rgb(color[0],color[1],color[2]));
+
             }
         });
         AlertDialog ad=adb.create();
